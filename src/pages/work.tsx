@@ -1,66 +1,9 @@
 import { useState, useEffect } from "react";
 import type { ReactNode } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { Accordion } from "radix-ui";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
-
-type Work = {
-  id: string;
-  title: string;
-  language?: string;
-  titles?: {
-    title: string;
-    type: string;
-    language: string;
-  }[];
-  description?: string;
-  identifiers?: {
-    label: string;
-    value: string;
-    url: string;
-  }[];
-  origin_year_start?: number;
-  origin_year_end?: number;
-  origin_country?: string;
-  themes?: string[];
-  sentiment?: string;
-  notes?: string;
-  versions?: {
-    id: string;
-    title: string;
-    version_type?: string;
-    primary_artist?: {
-      id: string;
-      display_name: string;
-    };
-    release_year?: number;
-    completeness_level?: string;
-  }[];
-  genres?: {
-    id: string;
-    name: string;
-  }[];
-  credits?: {
-    artist?: {
-      id: string;
-      display_name: string;
-    };
-    person?: {
-      id: string;
-      legal_name: string;
-    };
-    role?: string;
-    is_primary: boolean;
-    credit_order?: number;
-    instruments?: string[];
-    notes?: string;
-  }[];
-  external_links?: {
-    label: string;
-    url: string;
-    source_verified: boolean;
-  }[];
-};
+import type { Work } from "../utils/types";
 
 const AccordionTrigger = ({ children }: { children: ReactNode }) => (
   <Accordion.Trigger className="group flex w-full items-center justify-between rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-800 transition hover:border-slate-300 hover:bg-slate-50 data-[state=open]:border-slate-300 data-[state=open]:bg-slate-50">
@@ -158,7 +101,6 @@ export default function WorkPage({ workId }: WorkPageProps) {
           {work.language && <span className="text-slate-500">•</span>}
           {work.language && <span className="capitalize">{work.language}</span>}
         </div>
-        <p className="text-xs text-slate-500">ID: {work.id}</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
@@ -215,6 +157,33 @@ export default function WorkPage({ workId }: WorkPageProps) {
                   >
                     {theme}
                   </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* External Links */}
+          {work.external_links && work.external_links.length > 0 && (
+            <div className="space-y-3">
+              <h2 className="text-sm font-medium text-slate-600">
+                External Links
+              </h2>
+              <div className="grid gap-2">
+                {work.external_links.map((link) => (
+                  <a
+                    key={`${link.label}-${link.url}`}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between gap-3 rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+                  >
+                    <span>{link.label}</span>
+                    {link.source_verified && (
+                      <span className="shrink-0 rounded-full bg-slate-900 px-2 py-0.5 text-xs font-medium text-white">
+                        Verified
+                      </span>
+                    )}
+                  </a>
                 ))}
               </div>
             </div>
@@ -290,51 +259,73 @@ export default function WorkPage({ workId }: WorkPageProps) {
                 </AccordionTrigger>
                 <AccordionContent>
                   <div className="space-y-3 columns-2">
-                    {work.credits.map((credit, idx) => (
-                      <div
-                        key={idx}
-                        className="space-y-2 rounded-md border border-slate-200 bg-white p-3"
-                      >
-                        <div className="flex items-start justify-between">
-                          <div>
-                            <p className="font-medium text-slate-800">
-                              {credit.artist?.display_name ||
-                                credit.person?.legal_name ||
-                                "Unknown"}
-                            </p>
-                            {credit.role && (
-                              <p className="text-xs text-slate-600">
-                                {credit.role}
+                    {work.credits.map((credit, idx) => {
+                      const linkTo = credit.artist
+                        ? `/artist/${credit.artist.id}`
+                        : credit.person
+                          ? `/person/${credit.person.id}`
+                          : null;
+
+                      const content = (
+                        <>
+                          <div className="flex items-start justify-between">
+                            <div>
+                              <p className="font-medium text-slate-800">
+                                {credit.artist?.name ||
+                                  credit.person?.name ||
+                                  "Unknown"}
                               </p>
-                            )}
-                          </div>
-                          {credit.is_primary && (
-                            <span className="text-xs font-medium rounded bg-slate-900 text-white px-2 py-0.5">
-                              Primary
-                            </span>
-                          )}
-                        </div>
-                        {(credit.instruments || credit.notes) && (
-                          <div className="space-y-1 border-t border-slate-200 pt-2 text-xs text-slate-600">
-                            {credit.instruments &&
-                              credit.instruments.length > 0 && (
-                                <p>
-                                  <span className="font-medium">
-                                    Instruments:
-                                  </span>{" "}
-                                  {credit.instruments.join(", ")}
+                              {credit.role && (
+                                <p className="text-xs text-slate-600">
+                                  {credit.role}
                                 </p>
                               )}
-                            {credit.notes && (
-                              <p>
-                                <span className="font-medium">Notes:</span>{" "}
-                                {credit.notes}
-                              </p>
+                            </div>
+                            {credit.is_primary && (
+                              <span className="text-xs font-medium rounded bg-slate-900 text-white px-2 py-0.5">
+                                Primary
+                              </span>
                             )}
                           </div>
-                        )}
-                      </div>
-                    ))}
+                          {(credit.instruments || credit.notes) && (
+                            <div className="space-y-1 border-t border-slate-200 pt-2 text-xs text-slate-600">
+                              {credit.instruments &&
+                                credit.instruments.length > 0 && (
+                                  <p>
+                                    <span className="font-medium">
+                                      Instruments:
+                                    </span>{" "}
+                                    {credit.instruments.join(", ")}
+                                  </p>
+                                )}
+                              {credit.notes && (
+                                <p>
+                                  <span className="font-medium">Notes:</span>{" "}
+                                  {credit.notes}
+                                </p>
+                              )}
+                            </div>
+                          )}
+                        </>
+                      );
+
+                      return linkTo ? (
+                        <Link
+                          key={idx}
+                          to={linkTo}
+                          className="block space-y-2 rounded-md border border-slate-200 bg-white p-3 transition hover:border-slate-300 hover:shadow-sm"
+                        >
+                          {content}
+                        </Link>
+                      ) : (
+                        <div
+                          key={idx}
+                          className="space-y-2 rounded-md border border-slate-200 bg-white p-3"
+                        >
+                          {content}
+                        </div>
+                      );
+                    })}
                   </div>
                 </AccordionContent>
               </Accordion.Item>
@@ -351,9 +342,10 @@ export default function WorkPage({ workId }: WorkPageProps) {
                 <AccordionContent>
                   <div className="space-y-3">
                     {work.versions.map((version) => (
-                      <div
+                      <Link
                         key={version.id}
-                        className="space-y-2 rounded-md border border-slate-200 bg-white p-3"
+                        to={`/version/${version.id}`}
+                        className="block space-y-2 rounded-md border border-slate-200 bg-white p-3 transition hover:border-slate-300 hover:shadow-sm"
                       >
                         <h4 className="font-medium text-slate-800">
                           {version.title}
@@ -368,7 +360,17 @@ export default function WorkPage({ workId }: WorkPageProps) {
                           {version.primary_artist && (
                             <div>
                               <span className="font-medium">Artist:</span>{" "}
-                              {version.primary_artist.display_name}
+                              <span
+                                onClick={(e) => e.stopPropagation()}
+                                className="inline"
+                              >
+                                <Link
+                                  to={`/artist/${version.primary_artist.id}`}
+                                  className="text-slate-800 underline decoration-slate-300 hover:decoration-slate-800"
+                                >
+                                  {version.primary_artist.display_name}
+                                </Link>
+                              </span>
                             </div>
                           )}
                           {version.release_year && (
@@ -384,7 +386,7 @@ export default function WorkPage({ workId }: WorkPageProps) {
                             </div>
                           )}
                         </div>
-                      </div>
+                      </Link>
                     ))}
                   </div>
                 </AccordionContent>
@@ -430,36 +432,6 @@ export default function WorkPage({ workId }: WorkPageProps) {
               </div>
             )}
           </div>
-
-          {/* External Links */}
-          {work.external_links && work.external_links.length > 0 && (
-            <div className="rounded-lg border border-slate-200 bg-white p-4">
-              <h3 className="mb-3 text-xs font-medium uppercase tracking-wide text-slate-500">
-                External Links
-              </h3>
-              <ul className="space-y-2 text-sm">
-                {work.external_links.map((link) => (
-                  <li key={`${link.label}-${link.url}`}>
-                    <a
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex w-full items-center justify-between gap-3 rounded-md px-2 py-1 text-slate-700 transition hover:bg-slate-50 hover:text-slate-900"
-                    >
-                      <span className="truncate" title={link.label}>
-                        {link.label}
-                      </span>
-                      {link.source_verified && (
-                        <span className="shrink-0 rounded-full bg-slate-900 px-2 py-0.5 text-xs font-medium text-white">
-                          Verified
-                        </span>
-                      )}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
         </div>
       </div>
     </div>

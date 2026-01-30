@@ -164,16 +164,12 @@ export default function SearchPage() {
 
               return (
                 <li key={`${result.entity_type}-${result.entity_id}`}>
-                  {result.entity_type === "work" ? (
-                    <Link
-                      to={`/work/${result.entity_id}`}
-                      className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2"
-                    >
-                      {card}
-                    </Link>
-                  ) : (
-                    card
-                  )}
+                  <Link
+                    to={`/${result.entity_type}/${result.entity_id}`}
+                    className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2"
+                  >
+                    {card}
+                  </Link>
                 </li>
               );
             })}
