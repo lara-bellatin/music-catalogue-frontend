@@ -128,9 +128,9 @@ export default function PersonPage({ personId }: PersonPageProps) {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid gap-6">
         {/* Main Content */}
-        <div className="space-y-6 lg:col-span-2">
+        <div className="space-y-6">
           {/* Notes */}
           {person.notes && (
             <div className="space-y-2">
@@ -344,33 +344,6 @@ export default function PersonPage({ personId }: PersonPageProps) {
               </Accordion.Item>
             </Accordion.Root>
           )}
-        </div>
-
-        {/* Sidebar */}
-        <div className="space-y-4">
-          {/* Quick Stats */}
-          <div className="space-y-2">
-            {person.memberships && person.memberships.length > 0 && (
-              <div className="rounded-lg border border-slate-200 bg-white p-4">
-                <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-                  Memberships
-                </p>
-                <p className="mt-1 text-lg font-semibold text-slate-900">
-                  {person.memberships.length}
-                </p>
-              </div>
-            )}
-            {person.credits && person.credits.length > 0 && (
-              <div className="rounded-lg border border-slate-200 bg-white p-4">
-                <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-                  Credits
-                </p>
-                <p className="mt-1 text-lg font-semibold text-slate-900">
-                  {person.credits.length}
-                </p>
-              </div>
-            )}
-          </div>
         </div>
       </div>
     </div>

@@ -103,9 +103,9 @@ export default function WorkPage({ workId }: WorkPageProps) {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid gap-6">
         {/* Main Content */}
-        <div className="space-y-6 lg:col-span-2">
+        <div className="space-y-6">
           {/* Description */}
           {work.description && (
             <div className="space-y-2">
@@ -393,45 +393,6 @@ export default function WorkPage({ workId }: WorkPageProps) {
               </Accordion.Item>
             </Accordion.Root>
           )}
-        </div>
-
-        {/* Sidebar */}
-        <div className="space-y-4">
-          {/* Sentiment */}
-          {work.sentiment && (
-            <div className="rounded-lg border border-slate-200 bg-white p-4">
-              <h3 className="text-xs font-medium uppercase tracking-wide text-slate-500 mb-2">
-                Sentiment
-              </h3>
-              <p className="text-sm font-medium text-slate-800 capitalize">
-                {work.sentiment}
-              </p>
-            </div>
-          )}
-
-          {/* Quick Stats */}
-          <div className="space-y-2">
-            {work.versions && (
-              <div className="rounded-lg border border-slate-200 bg-white p-4">
-                <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-                  Versions
-                </p>
-                <p className="mt-1 text-lg font-semibold text-slate-900">
-                  {work.versions.length}
-                </p>
-              </div>
-            )}
-            {work.credits && (
-              <div className="rounded-lg border border-slate-200 bg-white p-4">
-                <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-                  Credits
-                </p>
-                <p className="mt-1 text-lg font-semibold text-slate-900">
-                  {work.credits.length}
-                </p>
-              </div>
-            )}
-          </div>
         </div>
       </div>
     </div>

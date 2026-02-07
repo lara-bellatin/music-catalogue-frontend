@@ -1,5 +1,64 @@
 export type ArtistType = "GROUP" | "SOLO";
 
+export type Artist = {
+  id: string;
+  person?: {
+    id: string;
+    name: string;
+  };
+  artist_type: ArtistType;
+  display_name: string;
+  sort_name?: string;
+  alternative_names?: string[];
+  start_year?: number;
+  end_year?: number;
+  members?: {
+    id: string;
+    person?: {
+      id: string;
+      name: string;
+    };
+    start_year?: number;
+    end_year?: number;
+    role?: string;
+    notes?: string;
+  }[];
+  versions?: {
+    id: string;
+    title: string;
+    work: {
+      id: string;
+      title: string;
+      language: string;
+    };
+    version_type: string;
+    release_year: number;
+  }[];
+  credits?: {
+    work?: {
+      id: string;
+      title: string;
+      language: string;
+    };
+    version?: {
+      id: string;
+      title: string;
+      version_type: string;
+      primary_artist: {
+        id: string;
+        name: string;
+        artist_type: ArtistType;
+      };
+      release_year: number;
+    };
+    role?: string;
+    is_primary: boolean;
+    credit_order?: number;
+    instruments?: string[];
+    notes?: string;
+  }[];
+};
+
 export type Person = {
   id: string;
   legal_name: string;
