@@ -1,5 +1,79 @@
 export type ArtistType = "GROUP" | "SOLO";
 
+export type VersionType =
+  | "ORIGINAL"
+  | "COVER"
+  | "REMIX"
+  | "LIVE"
+  | "ACOUSTIC"
+  | "INSTRUMENTAL"
+  | "DEMO"
+  | "REMASTER"
+  | "RADIO_EDIT"
+  | "EXTENDED"
+  | "ALTERNATE";
+
+export type CompletenessLevel = "COMPLETE" | "PARTIAL" | "FRAGMENT";
+
+export type Version = {
+  id: string;
+  title: string;
+  work?: {
+    id: string;
+    title: string;
+    language?: string;
+  };
+  version_type: VersionType;
+  based_on_version?: {
+    id: string;
+    title: string;
+  };
+  primary_artist: {
+    id: string;
+    name: string;
+    artist_type: ArtistType;
+  };
+  release_date?: string;
+  release_year?: number;
+  duration_seconds?: number;
+  bpm?: number;
+  key_signature?: string;
+  lyrics_reference?: string;
+  completeness_level: CompletenessLevel;
+  notes?: string;
+  credits?: {
+    artist?: {
+      id: string;
+      name: string;
+      artist_type: ArtistType;
+    };
+    person?: {
+      id: string;
+      name: string;
+    };
+    role?: string;
+    is_primary: boolean;
+    credit_order?: number;
+    instruments?: string[];
+    notes?: string;
+  }[];
+  external_links?: {
+    label: string;
+    url: string;
+    source_verified: boolean;
+  }[];
+  derived_versions?: {
+    id: string;
+    title: string;
+    version_type: VersionType;
+    primary_artist: {
+      id: string;
+      name: string;
+    };
+    release_year?: number;
+  }[];
+};
+
 export type Artist = {
   id: string;
   person?: {
@@ -140,7 +214,7 @@ export type Work = {
     version_type?: string;
     primary_artist?: {
       id: string;
-      display_name: string;
+      artist: string;
     };
     release_year?: number;
     completeness_level?: string;

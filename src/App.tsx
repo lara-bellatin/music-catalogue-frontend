@@ -4,6 +4,7 @@ import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import WorkPage from "./pages/work";
 import PersonPage from "./pages/person";
 import ArtistPage from "./pages/artist";
+import VersionPage from "./pages/version";
 
 type EntityType = "artist" | "person" | "version" | "work";
 
@@ -129,6 +130,7 @@ export default function App() {
           <Route path="/work/:workId" element={<WorkPage />} />
           <Route path="/person/:personId" element={<PersonPage />} />
           <Route path="/artist/:artistId" element={<ArtistPage />} />
+          <Route path="/version/:versionId" element={<VersionPage />} />
         </Routes>
       </div>
     </div>

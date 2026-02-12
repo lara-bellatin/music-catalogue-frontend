@@ -144,6 +144,33 @@ export default function ArtistPage({ artistId }: ArtistPageProps) {
             </div>
           )}
 
+          {/* External Links */}
+          {artist.external_links && artist.external_links.length > 0 && (
+            <div className="space-y-3">
+              <h2 className="text-sm font-medium text-slate-600">
+                External Links
+              </h2>
+              <div className="grid gap-2">
+                {artist.external_links.map((link) => (
+                  <a
+                    key={`${link.label}-${link.url}`}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between gap-3 rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+                  >
+                    <span>{link.label}</span>
+                    {link.source_verified && (
+                      <span className="shrink-0 rounded-full bg-slate-900 px-2 py-0.5 text-xs font-medium text-white">
+                        Verified
+                      </span>
+                    )}
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Members (for groups) */}
           {artist.members && artist.members.length > 0 && (
             <Accordion.Root type="single" collapsible className="space-y-2">
