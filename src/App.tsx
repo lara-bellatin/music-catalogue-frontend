@@ -5,15 +5,7 @@ import WorkPage from "./pages/work";
 import PersonPage from "./pages/person";
 import ArtistPage from "./pages/artist";
 import VersionPage from "./pages/version";
-
-type EntityType = "artist" | "person" | "version" | "work";
-
-type SearchResult = {
-  entity_type: EntityType;
-  entity_id: string;
-  display_text: string;
-  rank: number;
-};
+import type { SearchResult } from "./utils/types";
 
 function SearchBar() {
   const [query, setQuery] = useState("");
@@ -94,20 +86,29 @@ function SearchBar() {
 
       {isOpen && results.length > 0 && (
         <div className="absolute z-50 mt-1 w-full rounded-lg border border-slate-200 bg-white py-1 shadow-lg">
-          {results.map((result) => (
-            <button
-              key={`${result.entity_type}-${result.entity_id}`}
-              onClick={() => handleSelect(result)}
-              className="flex w-full items-center justify-between gap-3 px-3 py-2 text-left text-sm transition hover:bg-slate-50"
-            >
-              <span className="truncate font-medium text-slate-800">
-                {result.display_text}
-              </span>
-              <span className="shrink-0 rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-600">
-                {result.entity_type}
-              </span>
-            </button>
-          ))}
+          {results.map((result) => {
+            return (
+              <button
+                key={`${result.entity_type}-${result.entity_id}`}
+                onClick={() => handleSelect(result)}
+                className="flex w-full items-center justify-between gap-3 px-3 py-2 text-left text-sm transition hover:bg-slate-50"
+              >
+                <div className="min-w-0 flex-1">
+                  <span className="block truncate font-medium text-slate-800">
+                    {result.display_text}
+                  </span>
+                  {result.secondary_text && (
+                    <span className="block truncate text-xs text-slate-500">
+                      {result.secondary_text}
+                    </span>
+                  )}
+                </div>
+                <span className="shrink-0 rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-600">
+                  {result.entity_type}
+                </span>
+              </button>
+            );
+          })}
         </div>
       )}
     </div>

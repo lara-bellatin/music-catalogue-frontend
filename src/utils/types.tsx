@@ -15,6 +15,8 @@ export type VersionType =
 
 export type CompletenessLevel = "COMPLETE" | "PARTIAL" | "FRAGMENT";
 
+export type EntityType = "artist" | "person" | "version" | "work";
+
 export type Version = {
   id: string;
   title: string;
@@ -131,6 +133,11 @@ export type Artist = {
     instruments?: string[];
     notes?: string;
   }[];
+  external_links?: {
+    label: string;
+    url: string;
+    source_verified: boolean;
+  }[];
 };
 
 export type Person = {
@@ -244,4 +251,12 @@ export type Work = {
     url: string;
     source_verified: boolean;
   }[];
+};
+
+export type SearchResult = {
+  entity_type: EntityType;
+  entity_id: string;
+  display_text: string;
+  secondary_text?: string;
+  rank: number;
 };
