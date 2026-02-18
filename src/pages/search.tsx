@@ -2,22 +2,8 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 import { ToggleGroup } from "radix-ui";
 import { Link } from "react-router-dom";
-
-type EntityType = "artist" | "person" | "version" | "work";
-
-type SearchResult = {
-  entity_type: EntityType;
-  entity_id: string;
-  display_text: string;
-  rank: number;
-};
-
-const ENTITY_TYPES: { label: string; value: EntityType }[] = [
-  { label: "Artist", value: "artist" },
-  { label: "Person", value: "person" },
-  { label: "Version", value: "version" },
-  { label: "Work", value: "work" },
-];
+import type { EntityType, SearchResult } from "../utils/types";
+import { ENTITY_TYPES } from "../utils/types";
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");

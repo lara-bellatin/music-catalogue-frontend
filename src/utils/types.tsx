@@ -15,7 +15,20 @@ export type VersionType =
 
 export type CompletenessLevel = "COMPLETE" | "PARTIAL" | "FRAGMENT";
 
-export type EntityType = "artist" | "person" | "version" | "work";
+export type EntityType =
+  | "artist"
+  | "person"
+  | "version"
+  | "work"
+  | "performance";
+
+export const ENTITY_TYPES: { label: string; value: EntityType }[] = [
+  { label: "Artist", value: "artist" },
+  { label: "Person", value: "person" },
+  { label: "Version", value: "version" },
+  { label: "Work", value: "work" },
+  { label: "Performance", value: "performance" },
+];
 
 export type Version = {
   id: string;
@@ -245,6 +258,54 @@ export type Work = {
     credit_order?: number;
     instruments?: string[];
     notes?: string;
+  }[];
+  external_links?: {
+    label: string;
+    url: string;
+    source_verified: boolean;
+  }[];
+};
+
+export type Performance = {
+  id: string;
+  name: string;
+  performance_date?: string;
+  venue?: string;
+  city?: string;
+  country?: string;
+  notes?: string;
+  artists?: {
+    role?: string;
+    billing_order?: number;
+    notes?: string;
+    artist?: {
+      id: string;
+      name: string;
+      artist_type: ArtistType;
+    };
+    person?: {
+      id: string;
+      name: string;
+    };
+  }[];
+  works?: {
+    set_order?: number;
+    set_name?: string;
+    notes?: string;
+    work?: {
+      id: string;
+      title: string;
+      language?: string;
+    };
+    version?: {
+      id: string;
+      title: string;
+      version_type?: string;
+      primary_artist?: {
+        id: string;
+        name: string;
+      };
+    };
   }[];
   external_links?: {
     label: string;
