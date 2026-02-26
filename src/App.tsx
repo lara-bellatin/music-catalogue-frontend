@@ -6,6 +6,7 @@ import PersonPage from "./pages/person";
 import ArtistPage from "./pages/artist";
 import VersionPage from "./pages/version";
 import PerformancePage from "./pages/performance";
+import ReleasePage from "./pages/release";
 import type { SearchResult } from "./utils/types";
 
 function SearchBar() {
@@ -137,6 +138,7 @@ export default function App() {
             path="/performance/:performanceId"
             element={<PerformancePage />}
           />
+          <Route path="/release/:releaseId" element={<ReleasePage />} />
         </Routes>
       </div>
     </div>

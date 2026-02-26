@@ -368,7 +368,7 @@ export default function WorkPage({ workId }: WorkPageProps) {
                                   to={`/artist/${version.primary_artist.id}`}
                                   className="text-slate-800 underline decoration-slate-300 hover:decoration-slate-800"
                                 >
-                                  {version.primary_artist.display_name}
+                                  {version.primary_artist.name}
                                 </Link>
                               </span>
                             </div>

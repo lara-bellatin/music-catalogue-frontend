@@ -20,7 +20,8 @@ export type EntityType =
   | "person"
   | "version"
   | "work"
-  | "performance";
+  | "performance"
+  | "release";
 
 export const ENTITY_TYPES: { label: string; value: EntityType }[] = [
   { label: "Artist", value: "artist" },
@@ -28,6 +29,7 @@ export const ENTITY_TYPES: { label: string; value: EntityType }[] = [
   { label: "Version", value: "version" },
   { label: "Work", value: "work" },
   { label: "Performance", value: "performance" },
+  { label: "Release", value: "release" },
 ];
 
 export type Version = {
@@ -307,6 +309,68 @@ export type Performance = {
       };
     };
   }[];
+  external_links?: {
+    label: string;
+    url: string;
+    source_verified: boolean;
+  }[];
+};
+
+export type ReleaseMediaItem = {
+  id: string;
+  medium_type: string;
+  format_name: string;
+  platform_or_vendor?: string;
+  bitrate_kbps?: number;
+  sample_rate_hz?: number;
+  bit_depth?: number;
+  rpm?: number;
+  channels?: string;
+  packaging?: string;
+  accessories?: string;
+  pressing_details?: any;
+  sku?: string;
+  barcode?: string;
+  catalog_variation?: string;
+  availability_status: string;
+  notes?: string;
+};
+
+export type ReleaseTrack = {
+  id: string;
+  version: {
+    id: string;
+    title: string;
+    version_type: string;
+    primary_artist: {
+      id: string;
+      name: string;
+    };
+    release_year?: number;
+  };
+  track_number: number;
+  disc_number: number;
+  side?: string;
+  is_hidden: boolean;
+  notes?: string;
+};
+
+export type Release = {
+  id: string;
+  title: string;
+  release_date?: string;
+  release_category: string;
+  catalog_number?: string;
+  publisher_number?: string;
+  label?: string;
+  region?: string;
+  release_stage: string;
+  cover_art_url?: string;
+  total_discs: number;
+  total_tracks: number;
+  notes?: string;
+  media_items?: ReleaseMediaItem[];
+  tracks?: ReleaseTrack[];
   external_links?: {
     label: string;
     url: string;
