@@ -8,6 +8,7 @@ import VersionPage from "./pages/version";
 import PerformancePage from "./pages/performance";
 import ReleasePage from "./pages/release";
 import type { SearchResult } from "./utils/types";
+import ExtractDialog from "./components/ExtractDialog";
 
 function SearchBar() {
   const [query, setQuery] = useState("");
@@ -125,7 +126,12 @@ export default function App() {
           <h1 className="text-3xl font-semibold tracking-tight">
             Music Catalogue
           </h1>
-          <SearchBar />
+          <div className="flex w-full max-w-md items-center gap-2">
+            <div className="flex-1">
+              <SearchBar />
+            </div>
+            <ExtractDialog />
+          </div>
         </header>
 
         <Routes>
