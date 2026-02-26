@@ -114,6 +114,13 @@ export type Artist = {
     role?: string;
     notes?: string;
   }[];
+  releases?: {
+    id: string;
+    title: string;
+    release_year?: string;
+    release_category: string;
+    cover_art_url?: string;
+  }[];
   versions?: {
     id: string;
     title: string;
@@ -369,8 +376,29 @@ export type Release = {
   total_discs: number;
   total_tracks: number;
   notes?: string;
+  primary_artist?: {
+    id: string;
+    name: string;
+    artist_type: ArtistType;
+  };
   media_items?: ReleaseMediaItem[];
   tracks?: ReleaseTrack[];
+  credits?: {
+    artist?: {
+      id: string;
+      name: string;
+      artist_type: ArtistType;
+    };
+    person?: {
+      id: string;
+      name: string;
+    };
+    role?: string;
+    is_primary: boolean;
+    credit_order?: number;
+    instruments?: string[];
+    notes?: string;
+  }[];
   external_links?: {
     label: string;
     url: string;

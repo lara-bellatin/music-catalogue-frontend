@@ -299,14 +299,14 @@ export default function VersionPage({ versionId }: VersionPageProps) {
                         <Link
                           key={idx}
                           to={linkTo}
-                          className="block space-y-2 rounded-md border border-slate-200 bg-white p-3 transition hover:border-slate-300 hover:shadow-sm"
+                          className="block break-inside-avoid space-y-2 rounded-md border border-slate-200 bg-white p-3 transition hover:border-slate-300 hover:shadow-sm"
                         >
                           {content}
                         </Link>
                       ) : (
                         <div
                           key={idx}
-                          className="space-y-2 rounded-md border border-slate-200 bg-white p-3"
+                          className="break-inside-avoid space-y-2 rounded-md border border-slate-200 bg-white p-3"
                         >
                           {content}
                         </div>

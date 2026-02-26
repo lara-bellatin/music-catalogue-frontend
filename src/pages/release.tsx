@@ -127,8 +127,21 @@ export default function ReleasePage({ releaseId }: ReleasePageProps) {
               {release.title}
             </h1>
             <div className="flex flex-wrap items-center gap-3 text-sm text-slate-600">
+              {release.primary_artist && (
+                <Link
+                  to={`/artist/${release.primary_artist.id}`}
+                  className="text-slate-800 underline decoration-slate-300 hover:decoration-slate-800"
+                >
+                  {release.primary_artist.name}
+                </Link>
+              )}
               {release.release_date && (
-                <span>{formatDate(release.release_date)}</span>
+                <>
+                  {release.primary_artist && (
+                    <span className="text-slate-500">&bull;</span>
+                  )}
+                  <span>{formatDate(release.release_date)}</span>
+                </>
               )}
               {release.label && (
                 <>
@@ -282,6 +295,88 @@ export default function ReleasePage({ releaseId }: ReleasePageProps) {
                         </div>
                       </div>
                     ))}
+                  </div>
+                </AccordionContent>
+              </Accordion.Item>
+            </Accordion.Root>
+          )}
+
+          {/* Credits */}
+          {release.credits && release.credits.length > 0 && (
+            <Accordion.Root type="single" collapsible className="space-y-2">
+              <Accordion.Item value="credits" className="border-none">
+                <AccordionTrigger>
+                  <span>Credits ({release.credits.length})</span>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="space-y-3 columns-2">
+                    {release.credits.map((credit, idx) => {
+                      const linkTo = credit.artist
+                        ? `/artist/${credit.artist.id}`
+                        : credit.person
+                          ? `/person/${credit.person.id}`
+                          : null;
+
+                      const content = (
+                        <>
+                          <div className="flex items-start justify-between">
+                            <div>
+                              <p className="font-medium text-slate-800">
+                                {credit.artist?.name ||
+                                  credit.person?.name ||
+                                  "Unknown"}
+                              </p>
+                              {credit.role && (
+                                <p className="text-xs text-slate-600">
+                                  {credit.role}
+                                </p>
+                              )}
+                            </div>
+                            {credit.is_primary && (
+                              <span className="text-xs font-medium rounded bg-slate-900 text-white px-2 py-0.5">
+                                Primary
+                              </span>
+                            )}
+                          </div>
+                          {(credit.instruments || credit.notes) && (
+                            <div className="space-y-1 border-t border-slate-200 pt-2 text-xs text-slate-600">
+                              {credit.instruments &&
+                                credit.instruments.length > 0 && (
+                                  <p>
+                                    <span className="font-medium">
+                                      Instruments:
+                                    </span>{" "}
+                                    {credit.instruments.join(", ")}
+                                  </p>
+                                )}
+                              {credit.notes && (
+                                <p>
+                                  <span className="font-medium">Notes:</span>{" "}
+                                  {credit.notes}
+                                </p>
+                              )}
+                            </div>
+                          )}
+                        </>
+                      );
+
+                      return linkTo ? (
+                        <Link
+                          key={idx}
+                          to={linkTo}
+                          className="block break-inside-avoid space-y-2 rounded-md border border-slate-200 bg-white p-3 transition hover:border-slate-300 hover:shadow-sm"
+                        >
+                          {content}
+                        </Link>
+                      ) : (
+                        <div
+                          key={idx}
+                          className="break-inside-avoid space-y-2 rounded-md border border-slate-200 bg-white p-3"
+                        >
+                          {content}
+                        </div>
+                      );
+                    })}
                   </div>
                 </AccordionContent>
               </Accordion.Item>

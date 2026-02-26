@@ -283,6 +283,46 @@ export default function ArtistPage({ artistId }: ArtistPageProps) {
             </Accordion.Root>
           )}
 
+          {/* Releases */}
+          {artist.releases && artist.releases.length > 0 && (
+            <Accordion.Root type="single" collapsible className="space-y-2">
+              <Accordion.Item value="releases" className="border-none">
+                <AccordionTrigger>
+                  <span>Releases ({artist.releases.length})</span>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="space-y-3">
+                    {artist.releases.map((release) => (
+                      <Link
+                        key={release.id}
+                        to={`/release/${release.id}`}
+                        className="flex items-center gap-3 rounded-md border border-slate-200 bg-white p-3 transition hover:border-slate-300 hover:shadow-sm"
+                      >
+                        {release.cover_art_url && (
+                          <img
+                            src={release.cover_art_url}
+                            alt={release.title}
+                            className="h-10 w-10 shrink-0 rounded border border-slate-200 object-cover"
+                          />
+                        )}
+                        <div className="min-w-0 flex-1">
+                          <p className="font-medium text-slate-800">
+                            {release.title}
+                          </p>
+                          <p className="text-xs text-slate-600">
+                            {release.release_category.replace(/_/g, " ")}
+                            {release.release_year &&
+                              ` · ${release.release_year}`}
+                          </p>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </Accordion.Item>
+            </Accordion.Root>
+          )}
+
           {/* Credits */}
           {artist.credits &&
             artist.credits.length > 0 &&
