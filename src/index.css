@@ -27,3 +27,20 @@ body {
   margin: 0;
   min-height: 100vh;
 }
+
+/* React Flow overrides */
+.react-flow-controls button {
+  background: white;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+}
+
+.react-flow-controls button:hover {
+  background: #f8fafc;
+}
+
+.react-flow-minimap {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}

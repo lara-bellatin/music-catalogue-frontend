@@ -84,6 +84,17 @@ export default function WorkPage({ workId }: WorkPageProps) {
       {/* Header */}
       <div className="space-y-2 border-b border-slate-200 pb-6">
         <h1 className="text-3xl font-semibold text-slate-900">{work.title}</h1>
+        {work.based_on_work && (
+          <p className="text-sm text-slate-600">
+            Based on{" "}
+            <Link
+              to={`/work/${work.based_on_work.id}`}
+              className="text-slate-800 underline decoration-slate-300 hover:decoration-slate-800"
+            >
+              {work.based_on_work.title}
+            </Link>
+          </p>
+        )}
         <div className="flex flex-wrap items-center gap-4 text-sm text-slate-600">
           {work.origin_year_start ? (
             <span>
@@ -100,6 +111,12 @@ export default function WorkPage({ workId }: WorkPageProps) {
           {work.origin_country && <span>{work.origin_country}</span>}
           {work.language && <span className="text-slate-500">•</span>}
           {work.language && <span className="capitalize">{work.language}</span>}
+          <Link
+            to={`/lineage/work/${resolvedWorkId}`}
+            className="rounded-lg border border-slate-300 bg-white px-3 py-1 text-xs font-medium text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"
+          >
+            Visualize Lineage
+          </Link>
         </div>
       </div>
 
@@ -326,6 +343,48 @@ export default function WorkPage({ workId }: WorkPageProps) {
                         </div>
                       );
                     })}
+                  </div>
+                </AccordionContent>
+              </Accordion.Item>
+            </Accordion.Root>
+          )}
+
+          {/* Derived Works */}
+          {work.derived_works && work.derived_works.length > 0 && (
+            <Accordion.Root type="single" collapsible className="space-y-2">
+              <Accordion.Item value="derived-works" className="border-none">
+                <AccordionTrigger>
+                  <span>Derived Works ({work.derived_works.length})</span>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="space-y-3">
+                    {work.derived_works.map((derived) => (
+                      <Link
+                        key={derived.id}
+                        to={`/work/${derived.id}`}
+                        className="block space-y-2 rounded-md border border-slate-200 bg-white p-3 transition hover:border-slate-300 hover:shadow-sm"
+                      >
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <p className="font-medium text-slate-800">
+                              {derived.title}
+                            </p>
+                            <p className="text-xs text-slate-600">
+                              {derived.language && (
+                                <span className="capitalize">
+                                  {derived.language}
+                                </span>
+                              )}
+                              {derived.language &&
+                                derived.origin_year_start &&
+                                " • "}
+                              {derived.origin_year_start &&
+                                derived.origin_year_start}
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
                   </div>
                 </AccordionContent>
               </Accordion.Item>

@@ -7,6 +7,7 @@ import ArtistPage from "./pages/artist";
 import VersionPage from "./pages/version";
 import PerformancePage from "./pages/performance";
 import ReleasePage from "./pages/release";
+import LineagePage from "./pages/lineage";
 import type { SearchResult } from "./utils/types";
 import ExtractDialog from "./components/ExtractDialog";
 
@@ -147,6 +148,25 @@ export default function App() {
           <Route path="/release/:releaseId" element={<ReleasePage />} />
         </Routes>
       </div>
+
+      <Routes>
+        <Route
+          path="/lineage/version/:versionId"
+          element={
+            <div className="w-full px-6 pb-12">
+              <LineagePage />
+            </div>
+          }
+        />
+        <Route
+          path="/lineage/work/:workId"
+          element={
+            <div className="w-full px-6 pb-12">
+              <LineagePage />
+            </div>
+          }
+        />
+      </Routes>
     </div>
   );
 }

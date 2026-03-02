@@ -123,6 +123,12 @@ export default function VersionPage({ versionId }: VersionPageProps) {
           <span className="rounded bg-slate-100 px-2 py-0.5 text-xs font-medium">
             {version.completeness_level}
           </span>
+          <Link
+            to={`/lineage/version/${resolvedVersionId}`}
+            className="rounded-lg border border-slate-300 bg-white px-3 py-1 text-xs font-medium text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"
+          >
+            Visualize Lineage
+          </Link>
         </div>
       </div>
 

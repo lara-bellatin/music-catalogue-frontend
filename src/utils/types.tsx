@@ -1,35 +1,47 @@
-export type ArtistType = "GROUP" | "SOLO";
+export type ArtistType = "solo" | "group";
 
 export type VersionType =
-  | "ORIGINAL"
-  | "COVER"
-  | "REMIX"
-  | "LIVE"
-  | "ACOUSTIC"
-  | "INSTRUMENTAL"
-  | "DEMO"
-  | "REMASTER"
-  | "RADIO_EDIT"
-  | "EXTENDED"
-  | "ALTERNATE";
+  | "original"
+  | "cover"
+  | "remix"
+  | "live"
+  | "mashup"
+  | "demo"
+  | "radio_edit"
+  | "acoustic"
+  | "instrumental"
+  | "a_cappella"
+  | "extended"
+  | "remaster"
+  | "arrangement"
+  | "transcription"
+  | "excerpt"
+  | "medley"
+  | "other";
 
-export type CompletenessLevel = "COMPLETE" | "PARTIAL" | "FRAGMENT";
+export type CompletenessLevel = "sparse" | "partial" | "complete";
 
 export type EntityType =
-  | "artist"
   | "person"
-  | "version"
+  | "artist"
   | "work"
-  | "performance"
-  | "release";
+  | "version"
+  | "release"
+  | "media_item"
+  | "credit"
+  | "genre"
+  | "performance";
 
 export const ENTITY_TYPES: { label: string; value: EntityType }[] = [
-  { label: "Artist", value: "artist" },
   { label: "Person", value: "person" },
-  { label: "Version", value: "version" },
+  { label: "Artist", value: "artist" },
   { label: "Work", value: "work" },
-  { label: "Performance", value: "performance" },
+  { label: "Version", value: "version" },
   { label: "Release", value: "release" },
+  { label: "Media Item", value: "media_item" },
+  { label: "Credit", value: "credit" },
+  { label: "Genre", value: "genre" },
+  { label: "Performance", value: "performance" },
 ];
 
 export type Version = {
@@ -243,7 +255,8 @@ export type Work = {
     version_type?: string;
     primary_artist?: {
       id: string;
-      artist: string;
+      name: string;
+      artist_type: ArtistType;
     };
     release_year?: number;
     completeness_level?: string;
@@ -267,6 +280,16 @@ export type Work = {
     credit_order?: number;
     instruments?: string[];
     notes?: string;
+  }[];
+  based_on_work?: {
+    id: string;
+    title: string;
+  };
+  derived_works?: {
+    id: string;
+    title: string;
+    language?: string;
+    origin_year_start?: number;
   }[];
   external_links?: {
     label: string;
@@ -412,4 +435,30 @@ export type SearchResult = {
   display_text: string;
   secondary_text?: string;
   rank: number;
+};
+
+export type LineageVersionNode = {
+  id: string;
+  title: string;
+  version_type: VersionType;
+  primary_artist: { id: string; name: string };
+  release_year?: number;
+  workId?: string;
+  based_on_version_id?: string;
+  derived_version_ids: string[];
+};
+
+export type LineageWorkGroup = {
+  id: string;
+  title: string;
+  language?: string;
+  origin_year_start?: number;
+  versionIds: string[];
+  based_on_work_id?: string;
+  derived_work_ids: string[];
+};
+
+export type LineageGraph = {
+  versions: Map<string, LineageVersionNode>;
+  works: Map<string, LineageWorkGroup>;
 };
