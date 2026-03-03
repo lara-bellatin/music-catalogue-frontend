@@ -9,6 +9,7 @@ import PerformancePage from "./pages/performance";
 import ReleasePage from "./pages/release";
 import LineagePage from "./pages/lineage";
 import HomePage from "./pages/home";
+import SearchPage from "./pages/search";
 import type { SearchResult } from "./utils/types";
 import ExtractDialog from "./components/ExtractDialog";
 
@@ -19,6 +20,13 @@ function SearchBar() {
   const [isLoading, setIsLoading] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+
+  const navigateToSearch = () => {
+    const trimmed = query.trim();
+    if (!trimmed) return;
+    setIsOpen(false);
+    navigate(`/search?query=${encodeURIComponent(trimmed)}`);
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -50,8 +58,9 @@ function SearchBar() {
           `${import.meta.env.VITE_API_BASE_URL}/search?${params.toString()}`,
         );
         if (response.ok) {
-          const payload: SearchResult[] = await response.json();
-          setResults(payload.slice(0, 8));
+          const payload = await response.json();
+          const items: SearchResult[] = payload.results ?? payload;
+          setResults(items.slice(0, 8));
           setIsOpen(true);
         }
       } catch {
@@ -80,13 +89,26 @@ function SearchBar() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => results.length > 0 && setIsOpen(true)}
-          className="w-full rounded-lg border border-slate-300 bg-white py-2 pl-9 pr-3 text-sm shadow-sm transition placeholder:text-slate-400 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-400"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              navigateToSearch();
+            }
+          }}
+          className="w-full rounded-lg border border-slate-300 bg-white py-2 pl-9 pr-9 text-sm shadow-sm transition placeholder:text-slate-400 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-400"
         />
-        {isLoading && (
-          <div className="absolute right-3 top-1/2 -translate-y-1/2">
+        <button
+          type="button"
+          onClick={navigateToSearch}
+          className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-slate-400 transition hover:text-slate-600"
+          aria-label="Search"
+        >
+          {isLoading ? (
             <div className="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-slate-600" />
-          </div>
-        )}
+          ) : (
+            <MagnifyingGlassIcon className="h-4 w-4" />
+          )}
+        </button>
       </div>
 
       {isOpen && results.length > 0 && (
@@ -138,6 +160,7 @@ export default function App() {
 
         <Routes>
           <Route index element={<HomePage />} />
+          <Route path="/search" element={<SearchPage />} />
           <Route path="/work/:workId" element={<WorkPage />} />
           <Route path="/person/:personId" element={<PersonPage />} />
           <Route path="/artist/:artistId" element={<ArtistPage />} />
