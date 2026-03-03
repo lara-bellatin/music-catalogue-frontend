@@ -8,6 +8,7 @@ import VersionPage from "./pages/version";
 import PerformancePage from "./pages/performance";
 import ReleasePage from "./pages/release";
 import LineagePage from "./pages/lineage";
+import HomePage from "./pages/home";
 import type { SearchResult } from "./utils/types";
 import ExtractDialog from "./components/ExtractDialog";
 
@@ -136,7 +137,7 @@ export default function App() {
         </header>
 
         <Routes>
-          <Route index element={null} />
+          <Route index element={<HomePage />} />
           <Route path="/work/:workId" element={<WorkPage />} />
           <Route path="/person/:personId" element={<PersonPage />} />
           <Route path="/artist/:artistId" element={<ArtistPage />} />
