@@ -252,41 +252,17 @@ function layoutGraph(
     id: `e-${i}`,
     source: e.source,
     target: e.target,
-    type: "smoothstep",
+    type: "bezier",
     style: e.crossWork
-      ? { stroke: "#64748b", strokeWidth: 2, strokeDasharray: "6 3" }
+      ? { stroke: "#64748b", strokeWidth: 1.5, strokeDasharray: "6 3" }
       : { stroke: "#94a3b8", strokeWidth: 1.5 },
     markerEnd: {
       type: MarkerType.ArrowClosed,
       color: e.crossWork ? "#64748b" : "#94a3b8",
-      width: 16,
-      height: 16,
+      width: 14,
+      height: 14,
     },
   }));
-
-  // Add work-to-work edges for based_on_work / derived_works
-  let workEdgeIdx = 0;
-  for (const [, w] of graph.works) {
-    if (w.based_on_work_id && graph.works.has(w.based_on_work_id)) {
-      edges.push({
-        id: `we-${workEdgeIdx++}`,
-        source: `work-${w.based_on_work_id}`,
-        target: `work-${w.id}`,
-        type: "smoothstep",
-        style: {
-          stroke: "#334155",
-          strokeWidth: 2.5,
-          strokeDasharray: "8 4",
-        },
-        markerEnd: {
-          type: MarkerType.ArrowClosed,
-          color: "#334155",
-          width: 20,
-          height: 20,
-        },
-      });
-    }
-  }
 
   return { nodes, edges };
 }
@@ -404,16 +380,6 @@ function Legend() {
           }}
         />
         <span>Cross-work edge</span>
-      </div>
-      <div className="flex items-center gap-1.5">
-        <div
-          className="h-0.5 w-5"
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(90deg, #334155 0, #334155 5px, transparent 5px, transparent 9px)",
-          }}
-        />
-        <span>Work derivation</span>
       </div>
       <div className="flex items-center gap-1.5">
         <div className="h-4 w-6 rounded border-2 border-dashed border-slate-300 bg-slate-50/50" />
