@@ -391,6 +391,43 @@ export default function WorkPage({ workId }: WorkPageProps) {
             </Accordion.Root>
           )}
 
+          {/* Performances */}
+          {work.performances && work.performances.length > 0 && (
+            <Accordion.Root type="single" collapsible className="space-y-2">
+              <Accordion.Item value="performances" className="border-none">
+                <AccordionTrigger>
+                  <span>Performances ({work.performances.length})</span>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="space-y-3">
+                    {work.performances.map((perf) => (
+                      <Link
+                        key={perf.id}
+                        to={`/performance/${perf.id}`}
+                        className="block space-y-2 rounded-md border border-slate-200 bg-white p-3 transition hover:border-slate-300 hover:shadow-sm"
+                      >
+                        <p className="font-medium text-slate-800">
+                          {perf.name}
+                        </p>
+                        <p className="text-xs text-slate-600">
+                          {perf.performance_date && (
+                            <span>{perf.performance_date}</span>
+                          )}
+                          {perf.performance_date &&
+                            (perf.venue || perf.city) &&
+                            " • "}
+                          {perf.venue && <span>{perf.venue}</span>}
+                          {perf.venue && perf.city && ", "}
+                          {perf.city && <span>{perf.city}</span>}
+                        </p>
+                      </Link>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </Accordion.Item>
+            </Accordion.Root>
+          )}
+
           {/* Versions */}
           {work.versions && work.versions.length > 0 && (
             <Accordion.Root type="single" collapsible className="space-y-2">

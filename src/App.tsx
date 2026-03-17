@@ -12,6 +12,7 @@ import HomePage from "./pages/home";
 import SearchPage from "./pages/search";
 import type { SearchResult } from "./utils/types";
 import ExtractDialog from "./components/ExtractDialog";
+import { Link } from "react-router-dom";
 
 function SearchBar() {
   const [query, setQuery] = useState("");
@@ -147,9 +148,11 @@ export default function App() {
     <div className="min-h-screen bg-slate-50 text-slate-900">
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-4 py-12">
         <header className="flex flex-col items-center gap-4">
-          <h1 className="text-3xl font-semibold tracking-tight">
-            Music Catalogue
-          </h1>
+          <Link key="home" to={`/`}>
+            <h1 className="text-3xl font-semibold tracking-tight">
+              Music Catalogue
+            </h1>
+          </Link>
           <div className="flex w-full max-w-md items-center gap-2">
             <div className="flex-1">
               <SearchBar />

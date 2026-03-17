@@ -91,6 +91,13 @@ export type Version = {
     url: string;
     source_verified: boolean;
   }[];
+  performances?: {
+    id: string;
+    name: string;
+    performance_date?: string;
+    venue?: string;
+    city?: string;
+  }[];
   derived_versions?: {
     id: string;
     title: string;
@@ -280,6 +287,13 @@ export type Work = {
     credit_order?: number;
     instruments?: string[];
     notes?: string;
+  }[];
+  performances?: {
+    id: string;
+    name: string;
+    performance_date?: string;
+    venue?: string;
+    city?: string;
   }[];
   based_on_work?: {
     id: string;

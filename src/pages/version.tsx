@@ -363,6 +363,43 @@ export default function VersionPage({ versionId }: VersionPageProps) {
               </Accordion.Item>
             </Accordion.Root>
           )}
+
+          {/* Performances */}
+          {version.performances && version.performances.length > 0 && (
+            <Accordion.Root type="single" collapsible className="space-y-2">
+              <Accordion.Item value="performances" className="border-none">
+                <AccordionTrigger>
+                  <span>Performances ({version.performances.length})</span>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="space-y-3">
+                    {version.performances.map((perf) => (
+                      <Link
+                        key={perf.id}
+                        to={`/performance/${perf.id}`}
+                        className="block space-y-2 rounded-md border border-slate-200 bg-white p-3 transition hover:border-slate-300 hover:shadow-sm"
+                      >
+                        <p className="font-medium text-slate-800">
+                          {perf.name}
+                        </p>
+                        <p className="text-xs text-slate-600">
+                          {perf.performance_date && (
+                            <span>{perf.performance_date}</span>
+                          )}
+                          {perf.performance_date &&
+                            (perf.venue || perf.city) &&
+                            " • "}
+                          {perf.venue && <span>{perf.venue}</span>}
+                          {perf.venue && perf.city && ", "}
+                          {perf.city && <span>{perf.city}</span>}
+                        </p>
+                      </Link>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </Accordion.Item>
+            </Accordion.Root>
+          )}
         </div>
       </div>
     </div>

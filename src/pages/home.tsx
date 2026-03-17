@@ -15,6 +15,7 @@ const STAT_CARDS: { key: keyof CatalogueStats; label: string }[] = [
   { key: "artists", label: "Artists" },
   { key: "releases", label: "Releases" },
   { key: "performances", label: "Performances" },
+  { key: "persons", label: "Persons" },
 ];
 
 export default function HomePage() {
